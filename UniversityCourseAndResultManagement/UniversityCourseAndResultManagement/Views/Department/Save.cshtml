@@ -1,0 +1,43 @@
+﻿@using UniversityCourseAndResultManagement.Models
+@model UniversityCourseAndResultManagement.Models.Department
+@{
+    ViewBag.Title = "Save";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Save Department</legend>
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(department=>department.Code,new{@class="col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(department=>department.Code,new{@class="form-control",@placeholder="Department Code"})
+                    @Html.ValidationMessageFor(department =>department.Code)
+                </div>
+                
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(department => department.Name, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(department => department.Name, new { @class = "form-control", @placeholder = "Department Name" })
+                    @Html.ValidationMessageFor(department=>department.Name)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Save</button>
+                </div>
+                <h3>@ViewBag.message</h3>
+            </div>
+        </div>
+
+    </fieldset>
+}
+@section scripts
+{
+<script src="~/Scripts/jquery-1.10.2.js"></script>  
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}
+
