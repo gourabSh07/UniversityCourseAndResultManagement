@@ -30,9 +30,9 @@ namespace UniversityCourseAndResultManagement.DLL
             SqlConnection connection = new SqlConnection(connectionString);
             string query = "SELECT * FROM Teacher WHERE Email='" + email + "' ";
             SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
             SqlDataReader reader = command.ExecuteReader();
             string message = null;
-            connection.Open();
 
             if (reader.HasRows)
             {
