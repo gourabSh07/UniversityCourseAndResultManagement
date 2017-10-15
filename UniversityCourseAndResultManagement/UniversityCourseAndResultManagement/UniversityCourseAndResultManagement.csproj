@@ -183,6 +183,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AllocateClassRoom.cs" />
+    <Compile Include="Models\Anni.cs" />
     <Compile Include="Models\ClassSheduleIntoModel.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseAssingModel.cs" />
