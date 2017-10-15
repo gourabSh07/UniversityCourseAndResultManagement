@@ -37,7 +37,10 @@ namespace UniversityCourseAndResultManagement.BLL
                 return teacherGateway.FindDuplicatEmail(teacher.Email);
             }
         }
-
+        public List<Teacher> GetAllTeachers()
+        {
+            return teacherGateway.GetAllTeacher();
+        }
         public List<Course> GetAllCourses()
         {
             return courseManager.GetAllCourses();

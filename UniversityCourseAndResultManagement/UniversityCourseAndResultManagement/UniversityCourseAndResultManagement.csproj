@@ -159,16 +159,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="BLL\AssingCourseViewManager.cs" />
+    <Compile Include="BLL\CourseAssingManager.cs" />
     <Compile Include="BLL\CourseManager.cs" />
     <Compile Include="BLL\DepartmentManager.cs" />
     <Compile Include="BLL\TeacherManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CourseAssignController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DLL\AssingCourseViewGateway.cs" />
+    <Compile Include="DLL\CourseAssignGateway.cs" />
     <Compile Include="DLL\CourseGateway.cs" />
     <Compile Include="DLL\DepartmentGateway.cs" />
     <Compile Include="DLL\TeacherGateway.cs" />
@@ -268,6 +271,7 @@
     <Content Include="Views\Course\Save.cshtml" />
     <Content Include="Views\Course\ViewCourseStatics.cshtml" />
     <Content Include="Views\Teacher\Save.cshtml" />
+    <Content Include="Views\CourseAssign\CourseAssignToTeacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
