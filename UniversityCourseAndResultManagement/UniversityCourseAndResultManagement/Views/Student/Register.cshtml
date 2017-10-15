@@ -1,0 +1,121 @@
+﻿@using UniversityCourseAndResultManagement.Models
+@model UniversityCourseAndResultManagement.Models.Student
+
+@{
+    ViewBag.Title = "Register";
+    List<Department> listOfDepartments = ViewBag.listOfDepartments;
+    listOfDepartments.Insert(0, new Department(null, "AAA", "---Select---"));
+}
+<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Register Student</legend>
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(student => student.Name, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(student => student.Name, new { @class = "form-control", @placeholder = "Student Name" })
+                    @Html.ValidationMessageFor(student => student.Name)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(student => student.Email, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(student => student.Email, new { @class = "form-control", @placeholder = "Student Email" })
+                    @Html.ValidationMessageFor(student => student.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(student => student.ContactNo, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(student => student.ContactNo, new { @class = "form-control", @placeholder = "Student Contact No" })
+                    @Html.ValidationMessageFor(student => student.ContactNo)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(student => student.Date, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(student => student.Date, new { @class = "form-control", @placeholder = "select Date" })
+                    @Html.ValidationMessageFor(student => student.Date)
+                </div>
+
+            </div>
+
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(student => student.Address, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(student => student.Address, new { @class = "form-control", @placeholder = "Student Address" })
+                    @Html.ValidationMessageFor(student => student.Address)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(student => student.DepartmentId, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(student => student.DepartmentId, new SelectList(listOfDepartments, "Id", "Name"), htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(student => student.DepartmentId)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Register</button>
+                </div>
+              
+
+                @if (ViewBag.Message != null)
+                {
+
+                    <p class="body-content">
+                        @foreach (var ch in ViewBag.Message)
+                        {
+                            if (ch == ';')
+                            {
+                                <br />
+                            }
+                            else
+                            {
+                                @ch
+                            }
+                        }
+                    </p>
+
+                }
+            </div>
+        </div>
+    </fieldset>
+
+}
+
+
+
+
+
+@section scripts
+{
+
+
+    
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+   
+<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $('#Date').datepicker({
+            // format: "yyyy-MM-dd",
+            format: "dd MM, yyyy",
+            autoclose: true,
+            todayHighlight: true,
+
+        });</script>
+}
