@@ -363,10 +363,11 @@
     <Content Include="Views\Teacher\Save.cshtml" />
     <Content Include="Views\CourseAssign\CourseAssignToTeacher.cshtml" />
     <Content Include="Views\Student\Register.cshtml" />
+    <Content Include="Views\ClassRoom\Allocate.cshtml" />
+    <Content Include="Views\ClassRoom\ClassSchedul.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ClassRoom\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

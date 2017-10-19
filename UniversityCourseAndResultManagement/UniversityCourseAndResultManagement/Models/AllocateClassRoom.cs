@@ -23,7 +23,7 @@ namespace UniversityCourseAndResultManagement.Models
         [Required(ErrorMessage = "Please Enter course start time in From Field")]
 
         public TimeSpan From { get; set; }
-        [Required(ErrorMessage = "PPlease Enter course finished time in From Field")]
+        [Required(ErrorMessage = "Please Enter course finished time in From Field")]
 
         public TimeSpan To { get; set; }
     }

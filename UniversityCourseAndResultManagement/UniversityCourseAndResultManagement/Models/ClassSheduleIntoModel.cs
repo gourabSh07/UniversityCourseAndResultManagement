@@ -8,6 +8,7 @@ namespace UniversityCourseAndResultManagement.Models
     public class ClassSheduleIntoModel
     {
         public int Id { get; set; }
+    
         public int DepartmentId { get; set; }
         public int CourseId { get; set; }
         public string CourseCode { get; set; }
