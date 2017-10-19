@@ -165,6 +165,7 @@
     <Compile Include="BLL\CourseManager.cs" />
     <Compile Include="BLL\DepartmentManager.cs" />
     <Compile Include="BLL\StudentManager.cs" />
+    <Compile Include="BLL\StudentResultSaveManager.cs" />
     <Compile Include="BLL\TeacherManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClassRoomController.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\StudentResultSaveController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DLL\AssingCourseViewGateway.cs" />
     <Compile Include="DLL\ClassRoomGateway.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="DLL\CourseGateway.cs" />
     <Compile Include="DLL\DepartmentGateway.cs" />
     <Compile Include="DLL\StudentGateway.cs" />
+    <Compile Include="DLL\StudentResultSaveGateway.cs" />
     <Compile Include="DLL\TeacherGateway.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -369,6 +372,7 @@
     <Content Include="Views\ClassRoom\Allocate.cshtml" />
     <Content Include="Views\ClassRoom\ClassSchedul.cshtml" />
     <Content Include="Views\CourseEnroll\EnrollCourse.cshtml" />
+    <Content Include="Views\StudentResultSave\SaveResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
