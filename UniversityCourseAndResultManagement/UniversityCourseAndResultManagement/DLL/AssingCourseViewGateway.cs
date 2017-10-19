@@ -54,5 +54,6 @@ namespace UniversityCourseAndResultManagement.DLL
             return remainingCredits;
         }
 
+
     }
 }
