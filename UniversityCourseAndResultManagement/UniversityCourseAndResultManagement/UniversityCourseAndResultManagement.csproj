@@ -161,6 +161,7 @@
     <Compile Include="BLL\AssingCourseViewManager.cs" />
     <Compile Include="BLL\ClassRoomManager.cs" />
     <Compile Include="BLL\CourseAssingManager.cs" />
+    <Compile Include="BLL\CourseEnrollManager.cs" />
     <Compile Include="BLL\CourseManager.cs" />
     <Compile Include="BLL\DepartmentManager.cs" />
     <Compile Include="BLL\StudentManager.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Controllers\ClassRoomController.cs" />
     <Compile Include="Controllers\CourseAssignController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\CourseEnrollController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="DLL\AssingCourseViewGateway.cs" />
     <Compile Include="DLL\ClassRoomGateway.cs" />
     <Compile Include="DLL\CourseAssignGateway.cs" />
+    <Compile Include="DLL\CourseEnrollGateway.cs" />
     <Compile Include="DLL\CourseGateway.cs" />
     <Compile Include="DLL\DepartmentGateway.cs" />
     <Compile Include="DLL\StudentGateway.cs" />
@@ -365,6 +368,7 @@
     <Content Include="Views\Student\Register.cshtml" />
     <Content Include="Views\ClassRoom\Allocate.cshtml" />
     <Content Include="Views\ClassRoom\ClassSchedul.cshtml" />
+    <Content Include="Views\CourseEnroll\EnrollCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

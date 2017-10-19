@@ -1,0 +1,174 @@
+﻿@using UniversityCourseAndResultManagement.Models
+@model UniversityCourseAndResultManagement.Models.CourseEnroll
+
+@{
+    ViewBag.Title = "EnrollCourse";
+    List<Student> listOfStudentRegNo = ViewBag.listOfStudentRegNo;
+    listOfStudentRegNo.Insert(0, new Student(null, "RRR", "---Select---"));
+}
+<link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Enroll In A Course</legend>
+        <div class="form-horizontal">
+
+
+            <div class="form-group">
+                @Html.LabelFor(courseEnroll => courseEnroll.StudentId, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(courseEnroll => courseEnroll.StudentId, new SelectList(listOfStudentRegNo, "Id", "RegNo"), htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(courseEnroll => courseEnroll.StudentId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(courseEnroll => courseEnroll.Name, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(courseEnroll => courseEnroll.Name, new { @class = "form-control", @placeholder = "Student Name", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(courseEnroll => courseEnroll.Name)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(courseEnroll => courseEnroll.Email, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(courseEnroll => courseEnroll.Email, new { @class = "form-control", @placeholder = "Student Email", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(courseEnroll => courseEnroll.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(courseEnroll => courseEnroll.Department, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(courseEnroll => courseEnroll.Department, new { @class = "form-control", @placeholder = "Department", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(courseEnroll => courseEnroll.Department)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">
+                    <label for="CourseId">Select Course</label>
+                </div>
+                <div class="col-sm-10">
+                    <select name="CourseId" id="CourseId" class="form-control"></select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(courseEnroll => courseEnroll.EnrollDate, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(courseEnroll => courseEnroll.EnrollDate, new { @class = "form-control", @placeholder = "select Date" })
+                    @Html.ValidationMessageFor(courseEnroll => courseEnroll.EnrollDate)
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Enroll</button>
+                </div>
+                <h3>@ViewBag.message</h3>
+
+
+            </div>
+        </div>
+    </fieldset>
+
+}
+
+
+
+
+
+@section scripts
+{
+
+    
+
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $('#EnrollDate').datepicker({
+            // format: "yyyy-MM-dd",
+            format: "dd MM, yyyy",
+            autoclose: true,
+            todayHighlight: true,
+
+        });
+    </script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            $("#StudentId").change(function() {
+                var studentId = $("#StudentId").val();
+                var json = { studentId: studentId };
+                $.ajax({
+                    type: "POST",
+                    url: '/CourseEnroll/GetNameEmailDepartmentByStudentId',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+
+                        $.each(data, function(key, value) {
+
+                            $("#Name").val(value.Name);
+                            $("#Email").val(value.Email);
+                            $("#Department").val(value.DepartmentName);
+
+
+                        });
+
+
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+    <script>
+
+        $(document).ready(function() {
+            $("#StudentId").change(function() {
+
+                var departmentId = $("#StudentId").val();
+
+                $("#CourseId").empty();
+
+                $("#CourseId").append('<option value="">--Select--</option>');
+                var json = { studentId: departmentId };
+                $.ajax({
+                    type: "POST",
+                    url: '/CourseEnroll/GetAllCourseByStudentDepartmentID',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+
+                        $.each(data, function(key, value) {
+
+                            $("#CourseId").append('<option value=' + value.CourseId + '>' + value.CourseName + '</option>');
+                        });
+                    }
+                });
+
+            });
+
+
+        });
+
+    </script>
+
+
+
+
+}
+
