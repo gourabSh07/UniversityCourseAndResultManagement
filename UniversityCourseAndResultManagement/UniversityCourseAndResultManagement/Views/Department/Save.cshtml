@@ -1,43 +1,54 @@
-﻿@using UniversityCourseAndResultManagement.Models
-@model UniversityCourseAndResultManagement.Models.Department
+﻿@model UniversityCourseAndResultManagement.Models.Department
 @{
     ViewBag.Title = "Save";
 }
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<hr />
+<h2> Save Department</h2>
+<hr />
 @using (Html.BeginForm())
 {
-    <fieldset>
-        <legend>Save Department</legend>
-        <div class="form-horizontal">
-            <div class="form-group">
-                @Html.LabelFor(department=>department.Code,new{@class="col-sm-2 control-label"})
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(department=>department.Code,new{@class="form-control",@placeholder="Department Code"})
-                    @Html.ValidationMessageFor(department =>department.Code)
-                </div>
-                
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(department => department.Name, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(department => department.Name, new { @class = "form-control", @placeholder = "Department Name" })
-                    @Html.ValidationMessageFor(department=>department.Name)
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">Save</button>
-                </div>
-                <h3>@ViewBag.message</h3>
+    if (ViewBag.Mgs != null)
+    {
+        <p style="font-size:30px; color:blue">@ViewBag.Mgs</p>
+    }
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+
+
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Code, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Code)
+                @Html.ValidationMessageFor(model => model.Code)
             </div>
         </div>
 
-    </fieldset>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
 }
 @section scripts
 {
-<script src="~/Scripts/jquery-1.10.2.js"></script>  
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-}
+    
+    
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+}

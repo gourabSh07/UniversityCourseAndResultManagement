@@ -10,25 +10,40 @@ namespace UniversityCourseAndResultManagement.Controllers
 {
     public class DepartmentController : Controller
     {
-        // GET: Department
         DepartmentManager departmentManager = new DepartmentManager();
+
+        public ActionResult Index()
+        {
+            List<Department> departments = departmentManager.GetAll().ToList();
+            return View(departments);
+        }
+
+
 
         public ActionResult Save()
         {
             return View();
         }
+
+
         [HttpPost]
-        public ActionResult Save(Department department)
+        public ActionResult Save(Department aDepartment)
         {
-            ViewBag.message = departmentManager.SaveDepartment(department);
-            return View();
+            try
+            {
+                string message = departmentManager.Save(aDepartment);
+                ViewBag.Mgs = message;
+                return View();
+
+
+            }
+            catch (Exception exception)
+            {
+                ViewBag.Mgs = exception.InnerException.Message;
+
+                return View();
+            }
         }
 
-        public ActionResult ViewAllDepartment()
-        {
-            ViewBag.DepartmentList = departmentManager.GetAllDepartments();
-            return View();
-
-        }
     }
 }

@@ -10,37 +10,111 @@ namespace UniversityCourseAndResultManagement.Controllers
 {
     public class TeacherController : Controller
     {
-        // GET: Teacher
+        private string message;
         TeacherManager teacherManager = new TeacherManager();
-        private List<SelectListItem> GetAllDesignation()
+        DesignationManager designationManager = new DesignationManager();
+        DepartmentManager departmentManager = new DepartmentManager();
+        //
+        // GET: /Teacher/
+        public ActionResult Index()
         {
-            List<SelectListItem> designation = new List<SelectListItem>
-            {
-                new SelectListItem {Value = "", Text = "---Select---"},
-                new SelectListItem {Value = "P", Text = "Professor"},
-                new SelectListItem{Value = "ASP",Text = "Associate Professor"},
-                new SelectListItem{Value = "SAP",Text = "Senior Assistant Professor"},
-                new SelectListItem {Value = "AP", Text = "Assistent Professore"},
-                new SelectListItem {Value = "SL", Text = "Senior Lecturer"},
-                new SelectListItem {Value = "L", Text = "Lecturer"},
-            };
-            return designation;
+            List<Teacher> teachers = teacherManager.GetAll.ToList();
+            return View(teachers);
         }
-        public ActionResult Save()
+
+        //
+        // GET: /Teacher/Details/5
+        public ActionResult Details(int id)
         {
-            ViewBag.GetAllDesignation = GetAllDesignation();
-            ViewBag.listOfDepartments = teacherManager.GetAllDepartments();
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Save(Teacher teacher)
-        {
-            ViewBag.message = teacherManager.SaveTeacher(teacher);
-            ViewBag.GetAllDesignation = GetAllDesignation();
-            ViewBag.listOfDepartments = teacherManager.GetAllDepartments();
-            ModelState.Clear();
             return View();
         }
 
+        //
+        // GET: /Teacher/Create
+        public ActionResult Save()
+        {
+            IEnumerable<dynamic> desinationList = designationManager.GetAll;
+            IEnumerable<Department> departments = departmentManager.GetAll();
+            ViewBag.Designations = desinationList;
+            ViewBag.Departments = departments;
+            return View();
+        }
+
+        //
+        // POST: /Teacher/Create
+        [HttpPost]
+        public ActionResult Save(Teacher teacher)
+        {
+            try
+            {
+                message = teacherManager.Save(teacher);
+                IEnumerable<Designation> desinationList = designationManager.GetAll;
+                IEnumerable<Department> departments = departmentManager.GetAll();
+                ViewBag.Designations = desinationList;
+                ViewBag.Departments = departments;
+                ViewBag.Message = message;
+                return View();
+                //return RedirectToAction("Index");
+            }
+            catch (Exception exception)
+            {
+                message = exception.Message;
+                if (exception.InnerException != null)
+                {
+                    message += "<br/>System Error:" + exception.InnerException.Message;
+
+                }
+                ViewBag.Message = message;
+                return View();
+            }
+        }
+
+        //
+        // GET: /Teacher/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        //
+        // POST: /Teacher/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        //
+        // GET: /Teacher/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        //
+        // POST: /Teacher/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

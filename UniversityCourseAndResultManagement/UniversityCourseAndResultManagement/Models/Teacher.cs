@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace UniversityCourseAndResultManagement.Models
 {
     public class Teacher
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Enter a Teacher Name")]
+        [Required(ErrorMessage = "Please enter a teacher name!")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Enter Teacher Address")]
+        [Required(ErrorMessage = "Please enter a valid address!")]
         public string Address { get; set; }
-        [Required(ErrorMessage = "Enter Teacher Email")]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
+        [Required(ErrorMessage = "Please enter a valid Email address!")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address! Enter correct Email address!")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Enter Teacher Contact Number")]
-        [DisplayName("Contact No")]
-        public int ContactNo { get; set; }
-        [Required(ErrorMessage = "Enter Teacher decsignation")]
-        public string Designation { get; set; }
-        [Required(ErrorMessage = "Enter Teacher Department")]
+        [Required(ErrorMessage = "please enter a valid contact Number!")]
+        [DisplayName("Contact No.")]
+        public string Contact { get; set; }
+        [DisplayName("Designation")]
+        public int DesignationId { get; set; }
+        [DisplayName("Department")]
         public int DepartmentId { get; set; }
+        [Required(ErrorMessage = "Credit to be taken is required!")]
+        [DisplayName("Credit To be Taken")]
+        [RegularExpression("^0*[1-9][0-9]*(\\.[0-9]+)?", ErrorMessage = "Please! enter a positive number! ")]
+        public double CreditTobeTaken { get; set; }
 
-        [Required(ErrorMessage = "Enter Teacher Total Cerdit")]
-        [Range(0, int.MaxValue, ErrorMessage = "Total Cerdit must be a positive number")]
-        [DisplayName("Cedit To Be Taken")]
-        public decimal CreditToBeTaken { get; set; }
+        public double CreditTaken { get; set; }
     }
 }

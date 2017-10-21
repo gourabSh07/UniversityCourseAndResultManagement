@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using UniversityCourseAndResultManagement.DLL;
 using UniversityCourseAndResultManagement.Models;
 
@@ -9,46 +6,46 @@ namespace UniversityCourseAndResultManagement.BLL
 {
     public class TeacherManager
     {
-        DepartmentManager departmentManager = new DepartmentManager();
         TeacherGateway teacherGateway = new TeacherGateway();
-        CourseManager courseManager = new CourseManager();
-        AssingCourseViewManager assingCourseViewManager = new AssingCourseViewManager();
-
-        public List<Department> GetAllDepartments()
+        public IEnumerable<Teacher> GetAll
         {
-            return departmentManager.GetAllDepartments();
+            get { return teacherGateway.GetAll; }
         }
 
-        public string SaveTeacher(Teacher teacher)
+        public string Save(Teacher teacher)
         {
-            if (teacherGateway.FindDuplicatEmail(teacher.Email) == null)
+            if (!(IsEmailAddressValid(teacher.Email)))
             {
-                if (teacherGateway.SaveTeacher(teacher) > 0)
-                {
-                    return "Successfully Saved";
-                }
-                else
-                {
-                    return "Failed To Save";
-                }
+                return "Please! Enter a valid email address";
             }
-            else
+            if (IsEmailAddressExits(teacher.Email))
             {
-                return teacherGateway.FindDuplicatEmail(teacher.Email);
+                return "Email address must be unique";
             }
-        }
-        public List<Teacher> GetAllTeachers()
-        {
-            return teacherGateway.GetAllTeacher();
-        }
-        public List<Course> GetAllCourses()
-        {
-            return courseManager.GetAllCourses();
-        }
-        public decimal GetTakenCredit(int dId, int tId)
-        {
-            return assingCourseViewManager.GetTakenCredit(dId, tId);
+            if (teacherGateway.Insert(teacher) > 0)
+            {
+                return "Saved Sucessfully";
+            }
+            return "Failed to save";
         }
 
+        private bool IsEmailAddressExits(string email)
+        {
+            Teacher aTeacher = teacherGateway.GetTeacherByEmailAddress(email);
+            if (aTeacher != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsEmailAddressValid(string email)
+        {
+            if (email.Contains(".com") && ((email.Contains("@gmail")) || (email.Contains("@yahoo"))))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

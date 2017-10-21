@@ -1,71 +1,138 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
 using UniversityCourseAndResultManagement.Models;
 
 namespace UniversityCourseAndResultManagement.DLL
 {
-    public class TeacherGateway
+    public class TeacherGateway:DBGateway
     {
-
-        private string connectionString = WebConfigurationManager.ConnectionStrings["UniversityMSDB"].ConnectionString;
-
-        public int SaveTeacher(Teacher teacher)
+        public IEnumerable<Teacher> GetAll
         {
-            SqlConnection connection = new SqlConnection(connectionString);
-            string querry = "INSERT INTO Teacher VALUES('" + teacher.Name + "','" + teacher.Address + "','" +
-                            teacher.Email + "','" + teacher.ContactNo + "','" + teacher.Designation + "','" +
-                            teacher.DepartmentId + "','" + teacher.CreditToBeTaken + "')";
-            SqlCommand command = new SqlCommand(querry, connection);
-            connection.Open();
-            int rowAffected = command.ExecuteNonQuery();
-            connection.Close();
-            return rowAffected;
-        }
-        public string FindDuplicatEmail(string email)
-        {
-            SqlConnection connection = new SqlConnection(connectionString);
-            string query = "SELECT * FROM Teacher WHERE Email='" + email + "' ";
-            SqlCommand command = new SqlCommand(query, connection);
-            connection.Open();
-            SqlDataReader reader = command.ExecuteReader();
-            string message = null;
-
-            if (reader.HasRows)
+            get
             {
-                message = "Email Already Exist.";
-            }
-            reader.Close();
-            connection.Close();
-            return message;
-        }
-
-        public List<Teacher> GetAllTeacher()
-        {
-            SqlConnection connection = new SqlConnection(connectionString);
-            List<Teacher> teachers = new List<Teacher>();
-            string query = "SELECT * FROM Teacher";
-            SqlCommand command = new SqlCommand(query, connection);
-            connection.Open();
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                Teacher teacher = new Teacher
+                try
                 {
-                    Id = (int)(reader["Id"]),
-                    DepartmentId = (int)reader["DepartmentId"],
-                    Name = reader["Name"].ToString(),
-                    CreditToBeTaken = (decimal)reader["CreditToBeTaken"]
-                };
-                teachers.Add(teacher);
-            }
-            reader.Close();
-            connection.Close();
-            return teachers;
+                    string query = "SELECT * FROM t_Teacher";
+                    CommandObj.CommandText = query;
+                    List<Teacher> teachers = new List<Teacher>();
+                    ConnectionObj.Open();
+                    SqlDataReader reader = CommandObj.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Teacher teacher = new Teacher
+                        {
+                            Id = Convert.ToInt32(reader["Id"].ToString()),
+                            Name = reader["Name"].ToString(),
+                            Address = reader["Address"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            Contact = reader["Contact"].ToString(),
+                            DesignationId = Convert.ToInt32(reader["DesignationId"].ToString()),
+                            DepartmentId = Convert.ToInt32(reader["DepartmentId"].ToString()),
+                            CreditTobeTaken = Convert.ToDouble(reader["CreditToBeTaken"].ToString()),
+                            CreditTaken = Convert.ToDouble(reader["CreditTaken"].ToString())
+                            
 
+                        };
+                        teachers.Add(teacher);
+                    }
+                    reader.Close();
+                    return teachers;
+                }
+                catch (Exception exception)
+                {
+                    throw new Exception("Unable to collect Teachers", exception);
+                }
+                finally
+                {
+                    ConnectionObj.Close();
+                    CommandObj.Dispose();
+                } 
+            }
+        }
+
+        public Teacher GetTeacherByEmailAddress(string email)
+        {
+            try
+            {
+                string query = "SELECT * FROM t_Teacher WHERE Email=@email";
+                CommandObj.CommandText = query;
+                CommandObj.Parameters.Clear();
+                CommandObj.Parameters.AddWithValue("@email", email);
+                Teacher teacher = null;
+                ConnectionObj.Open();
+                SqlDataReader reader = CommandObj.ExecuteReader();
+                if(reader.Read())
+                {
+                     teacher = new Teacher
+                    {
+                        Id = Convert.ToInt32(reader["Id"].ToString()),
+                        Name = reader["Name"].ToString(),
+                        Address = reader["Address"].ToString(),
+                        Email = reader["Email"].ToString(),
+                        Contact = reader["Contact"].ToString(),
+                        DesignationId = Convert.ToInt32(reader["DesignationId"].ToString()),
+                        DepartmentId = Convert.ToInt32(reader["DepartmentId"].ToString()),
+                        CreditTobeTaken = Convert.ToDouble(reader["CreditToBeTaken"].ToString())
+
+                    };
+                    
+                }
+                reader.Close();
+                return teacher;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception("Unable to collect Teachers", exception);
+            }
+            finally
+            {
+                ConnectionObj.Close();
+                CommandObj.Dispose();
+            } 
+        }
+
+        public int Insert(Teacher teacher)
+        {
+            try
+            {
+                CommandObj.CommandText = "spAddTeacher";
+                CommandObj.CommandType = CommandType.StoredProcedure;
+                CommandObj.Parameters.Clear();
+                CommandObj.Parameters.AddWithValue("@Name", teacher.Name);
+                CommandObj.Parameters.AddWithValue("@Address", teacher.Address);
+                CommandObj.Parameters.AddWithValue("@Email", teacher.Email.ToLower());
+                CommandObj.Parameters.AddWithValue("@Contact", teacher.Contact);
+                CommandObj.Parameters.AddWithValue("@DesignationId", teacher.DesignationId);
+                CommandObj.Parameters.AddWithValue("@DepartmentId", teacher.DepartmentId);
+                CommandObj.Parameters.AddWithValue("@CreditTobeTaken", teacher.CreditTobeTaken);
+                CommandObj.Parameters.AddWithValue("@RemainingCredit", 0);
+                ConnectionObj.Open();
+                return CommandObj.ExecuteNonQuery();
+
+            }
+            catch (Exception exception)
+            {
+                throw new Exception("Could Not save teacher",exception);
+            }
+
+            finally
+            {
+                ConnectionObj.Close();
+                CommandObj.Dispose();
+            }
+        }
+
+
+
+        public int UpdateTeacherInformation()
+        {
+            ConnectionObj.Open();
+            CommandObj.CommandText = "UPDATE t_Teacher SET CreditTaken=0";
+            int i= CommandObj.ExecuteNonQuery();
+            ConnectionObj.Close();
+            return i;
         }
     }
 }

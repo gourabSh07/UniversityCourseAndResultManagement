@@ -1,31 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace UniversityCourseAndResultManagement.Models
 {
+    //[MetadataType(typeof(Department))]
     public class Department
     {
-        public Nullable<int> ID { get; set; }
+        public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please Enter A Department Code")]
-        [StringLength(7, MinimumLength = 2, ErrorMessage = "Code must be between 2 to 7 characters")]
+        [Required(ErrorMessage = "Please enter Department code!")]
+        [StringLength(7, MinimumLength = 2, ErrorMessage = "Code must be contains between 2 and 7 characters!")]
         public string Code { get; set; }
-        [Required(ErrorMessage = "Please Enter A Department Name")]
+
+        [Required(ErrorMessage = "Please enter a valid Department name!")]
+
         public string Name { get; set; }
-
-        public Department(int? id, string code, string name)
-        {
-            ID = id;
-            Code = code;
-            Name = name;
-        }
-
-        public Department()
-        {
-
-        }
     }
 }

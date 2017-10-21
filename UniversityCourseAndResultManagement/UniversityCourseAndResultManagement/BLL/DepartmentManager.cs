@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using UniversityCourseAndResultManagement.DLL;
 using UniversityCourseAndResultManagement.Models;
 
@@ -10,38 +7,64 @@ namespace UniversityCourseAndResultManagement.BLL
     public class DepartmentManager
     {
         DepartmentGateway departmentGateway = new DepartmentGateway();
-
-        public string SaveDepartment(Department department)
+        public IEnumerable<Department> GetAll()
         {
-            if (departmentGateway.FindDuplicateCode(department) == null)
-            {
-                if (departmentGateway.FindDuplicateName(department) == null)
-                {
-                    if (departmentGateway.SaveDepartment(department) > 0)
-                    {
-                        return "Department Save Successfully";
-                    }
-                    else
-                    {
-                        return "Failed to Save Department";
-                    }
-                }
-                else
-                {
-                    return departmentGateway.FindDuplicateName(department);
-                }
-            }
-            else
-            {
-                return departmentGateway.FindDuplicateCode(department);
-            }
+            return departmentGateway.GetAll();
         }
 
-        public List<Department> GetAllDepartments()
+        public string Save(Department aDepartment)
         {
-            return departmentGateway.GetAllDepartments();
+            if (!(IsDepartmentCodeValid(aDepartment)))
+            {
+                return "Department code must be between 2 to 7 character length";
+            }
+            if (IsDepartmentCodeExits(aDepartment))
+            {
+                return "Department Code Already Exists. Department Codebe be unique";
+            }
+            if (IsDepartmentNameExits(aDepartment))
+            {
+                return "Department Name Already Exists. Department Name must be uinque";
+            }
+            if (departmentGateway.Insert(aDepartment) > 0)
+            {
+                return "Saved Successfully";
+            }
+            return "Failed to save";
         }
 
+        private bool IsDepartmentNameExits(Department aDepartment)
+        {
+            Department dept = departmentGateway.GetDepartmentByName(aDepartment.Name);
 
+            if (dept != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsDepartmentCodeExits(Department aDepartment)
+        {
+            Department dept = departmentGateway.GetDepartmentByCode(aDepartment.Code.ToUpper());
+
+            if (dept != null)
+            {
+                return true;
+            }
+            return false;
+
+
+        }
+
+        private bool IsDepartmentCodeValid(Department
+            aDepartment)
+        {
+            if (aDepartment.Code.Length >= 2 || aDepartment.Code.Length <= 7)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using UniversityCourseAndResultManagement.DLL;
 using UniversityCourseAndResultManagement.Models;
 
@@ -10,51 +7,86 @@ namespace UniversityCourseAndResultManagement.BLL
     public class CourseManager
     {
         CourseGateway courseGateway = new CourseGateway();
-        DepartmentManager departmentManager = new DepartmentManager();
-        AssingCourseViewManager assingCourseViewManager = new AssingCourseViewManager();
-
-
-        public List<Department> GetAllDepartments()
+        public IEnumerable<Course> GetAll
         {
-            return departmentManager.GetAllDepartments();
+            get { return courseGateway.GetAll; }
         }
-
-        public string SaveCourse(Course course)
+        public string Save(Course aCourse)
         {
-            if (courseGateway.FindDuplicateCode(course) == null)
+            if (!(IsCorseCodeValid(aCourse)))
             {
-                if (courseGateway.FindDuplicateName(course) == null)
-                {
-                    if (courseGateway.SaveCourse(course) > 0)
-                    {
-                        return "Course Save Successfully";
-                    }
-                    else
-                    {
-                        return "Sorry! Course Save Fail";
-                    }
-
-                }
-                else
-                {
-                    return courseGateway.FindDuplicateName(course);
-                }
+                return "Course code must be at least 5 character of length";
             }
-            else
+            if (IsCourseCodeExits(aCourse.Code))
             {
-                return courseGateway.FindDuplicateCode(course);
+                return "Course code Already Exists ! Code must be unique";
             }
+            if (IsCourseNameExits(aCourse.Name))
+            {
+                return "Course Name Already Exists ! Name must be unique";
+            }
+            if (courseGateway.Insert(aCourse) > 0)
+            {
+                return "Saved Successfully";
+            }
+            return "Failed to save";
         }
 
-        public List<Course> GetAllCourses()
+        private bool IsCourseNameExits(string name)
         {
-            return courseGateway.GetAllCourses();
+
+            Course course = courseGateway.GetCourseByName(name);
+            if (course != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public List<CourseAssingModel> CourseInformation(int departmentId)
+        private bool IsCourseCodeExits(string code)
         {
-            return assingCourseViewManager.CourseInformation(departmentId);
+            Course course = courseGateway.GetCourseByCode(code.ToUpper());
+
+            if (course != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
+        private bool IsCorseCodeValid(Course aCourse)
+        {
+            if (aCourse.Code.Length > 5)
+            {
+                return true;
+            }
+            return false;
+
+        }
+
+        public IEnumerable<CourseViewModel> GetCourseViewModels
+        {
+            get { return courseGateway.GetCourseViewModels; }
+        }
+
+        public IEnumerable<Course> GetCoursesTakenByaStudentById(int id)
+        {
+            return courseGateway.GetCoursesTakeByaStudentByStudentId(id);
+        }
+        public string UnAssignCourses()
+        {
+            if (courseGateway.UnAssignCourse() > 0)
+            {
+                return "Unassign Courses Successfully!";
+            }
+            return "Failed to unassign";
+        }
+
+        public IEnumerable<Course> GetCourseByDepartmentId(int departmentId)
+        {
+            return courseGateway.GetCourseByDepartmentId(departmentId);
+        }
     }
 }

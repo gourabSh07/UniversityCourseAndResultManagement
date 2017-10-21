@@ -10,64 +10,45 @@ namespace UniversityCourseAndResultManagement.Controllers
 {
     public class CourseController : Controller
     {
-        // GET: Course
-        public CourseManager courseManager = new CourseManager();
+        DepartmentManager departmentManager = new DepartmentManager();
+        SemesterManager semesterManager = new SemesterManager();
+        CourseManager courseManager = new CourseManager();
+
+        [HttpGet]
         public ActionResult Save()
         {
-            ViewBag.listOfSemester = GetAllSemester();
-            ViewBag.listOfDepartments = courseManager.GetAllDepartments();
+
+
+            List<Department> departments = departmentManager.GetAll().ToList();
+            List<Semester> semesters = semesterManager.GetAll.ToList();
+            ViewBag.Departments = departments;
+            ViewBag.Semesters = semesters;
             return View();
         }
 
+
+        // POST: /Course/Create
         [HttpPost]
-        public ActionResult Save(Course course)
+        public ActionResult Save(Course aCourse)
         {
-            ViewBag.message = courseManager.SaveCourse(course);
-            ViewBag.listOfSemester = GetAllSemester();
-            ViewBag.listOfDepartments = courseManager.GetAllDepartments();
-            ModelState.Clear();
-            return View();
-        }
-
-
-        private List<SelectListItem> GetAllSemester()
-        {
-            List<SelectListItem> Semester = new List<SelectListItem>
+            try
             {
-                new SelectListItem {Value = "", Text = "---Select---"},
-                new SelectListItem {Value = "1st Semester", Text = "1st Semester"},
-                new SelectListItem {Value = "2nd Semester", Text = "2nd Semester"},
-                new SelectListItem {Value = "3rd Semester", Text = "3rd Semester"},
-                new SelectListItem {Value = "4th Semester", Text = "4th Semester"},
-                new SelectListItem {Value = "5th Semester", Text = "5th Semester"},
-                new SelectListItem {Value = "6th Semester", Text = "6th Semester"},
-                new SelectListItem {Value = "7th Semester", Text = "7th Semester"},
-                new SelectListItem {Value = "8th Semester", Text = "8th Semester"}
-            };
-            return Semester;
-        }
 
 
+                string message = courseManager.Save(aCourse);
+                ViewBag.Mgs = message;
+                List<Department> departments = departmentManager.GetAll().ToList();
+                List<Semester> semesters = semesterManager.GetAll.ToList();
+                ViewBag.Departments = departments;
+                ViewBag.Semesters = semesters;
+                return View();
 
-        public ActionResult ViewCourseStatics()
-        {
-            ViewBag.listOfDepartments = courseManager.GetAllDepartments();
-            return View();
-        }
-
-
-        public JsonResult GetCourseByDepartmentId(int deptId)
-        {
-
-            var courseList = courseManager.CourseInformation(deptId);
-            foreach (var course in courseList)
-            {
-                if (course.TeacherName.Length < 1)
-                {
-                    course.TeacherName = "Not Assigned Yet";
-                }
+                //return RedirectToAction("Index");
             }
-            return Json(courseList, JsonRequestBehavior.AllowGet);
+            catch
+            {
+                return View();
+            }
         }
     }
 }

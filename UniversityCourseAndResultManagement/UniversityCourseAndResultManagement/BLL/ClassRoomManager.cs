@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using UniversityCourseAndResultManagement.DLL;
 using UniversityCourseAndResultManagement.Models;
 
@@ -10,31 +8,93 @@ namespace UniversityCourseAndResultManagement.BLL
     public class ClassRoomManager
     {
         ClassRoomGateway classRoomGateway = new ClassRoomGateway();
-        DepartmentManager departmentManager = new DepartmentManager();
-        CourseManager courseManager = new CourseManager();
 
-        public List<Department> GetAllDepartments()
+        public String Save(ClassRoom room)
         {
-            return departmentManager.GetAllDepartments();
-        }
-
-        public List<Course> GetAllCourses()
-        {
-            return courseManager.GetAllCourses();
-        }
-
-        public string SaveAllocatedClassRoom(AllocateClassRoom allocateClassRoom)
-        {
-            if (classRoomGateway.SaveAllocateClassRoom(allocateClassRoom) > 0)
+            if (room.StartTime > room.Endtime)
             {
-                return "Save Successfully";
+                return "Time is Unvaluable ! (Hint: To time can't less than From time )";
             }
-            return "Failed To Save";
+            bool isTimeScheduleValid = IsTimeScheduleValid(room.RoomId, room.DayId, room.StartTime, room.Endtime);
+
+            if (isTimeScheduleValid != true)
+            {
+
+                if (classRoomGateway.Insert(room) > 0)
+                {
+                    return "Saved Successfully !";
+                }
+                return "Failed to save";
+
+            }
+            return "Overlapping not allowed";
         }
 
-        public List<ClassSheduleIntoModel> GetAllClassSheduleIntoList()
+        private bool IsTimeScheduleValid(int roomId, int dayId, DateTime startTime, DateTime endTime)
         {
-            return classRoomGateway.GetAllClassSheduleIntoList();
+            List<ClassRoom> schedule = classRoomGateway.GetClassSchedulByStartAndEndingTime(roomId, dayId, startTime, endTime);
+            foreach (var sd in schedule)
+            {
+                if ((sd.DayId == dayId && roomId == sd.RoomId) &&
+                                 (startTime < sd.StartTime && endTime > sd.StartTime)
+                                 || (startTime < sd.StartTime && endTime > sd.StartTime) ||
+                                 (startTime == sd.StartTime) || (sd.StartTime < startTime && sd.Endtime > startTime)
+                                 )
+                {
+                    return true;
+                }
+
+            }
+            return false;
+
+        }
+
+        public List<ClassSchedule> GetAll
+        {
+            get { return classRoomGateway.GetAll; }
+        }
+
+        public List<TempClassSchedule> GetAllClassSchedules
+        {
+            get { return classRoomGateway.GetAllClassSchedules; }
+        }
+
+
+
+
+        public string GetAllClassSchedulesByDeparmentId(int departmentId, int courseId)
+        {
+            IEnumerable<TempClassSchedule> classSchedules = classRoomGateway.GetAllClassSchedulesByDeparmentId(departmentId, courseId);
+
+            string output = "";
+
+            foreach (var acls in classSchedules)
+            {
+
+                if (acls.RoomName.StartsWith("R"))
+                {
+                    output += acls.RoomName + ", " + acls.DayName + ", " + acls.StartTime.ToShortTimeString() + " - " + acls.EndTime.ToShortTimeString() + ";<br />";
+                }
+
+                else if (acls.RoomName.StartsWith("N"))
+                {
+                    output = acls.RoomName;
+
+                }
+
+
+            }
+
+            return output;
+        }
+
+        public String UnAllocateClassRoom()
+        {
+            if (classRoomGateway.UnAllocateClassRoom() > 0)
+            {
+                return "UnAllocated Successfully";
+            }
+            return "Failed to Unallocate";
         }
     }
 }
