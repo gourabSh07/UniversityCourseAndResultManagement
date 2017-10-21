@@ -244,6 +244,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\mobiscroll-2.13.2.full.min.css" />
     <Content Include="Content\mobiscroll.animation-2.13.2.css" />
     <Content Include="Content\mobiscroll.icons-2.13.2.css" />
