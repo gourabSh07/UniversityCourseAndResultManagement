@@ -2,7 +2,7 @@
 
 namespace UniversityCourseAndResultManagement.Models
 {
-    //[MetadataType(typeof(Department))]
+
     public class Department
     {
         public int Id { get; set; }

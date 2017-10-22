@@ -9,7 +9,7 @@
 <hr />
 @if (ViewBag.Message != null)
 {
-    <p style="font-size:20px;color:olive">@ViewBag.Message</p>
+    <p class="alert alert-info" >@ViewBag.Message</p>
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "saveClassScedule" }))

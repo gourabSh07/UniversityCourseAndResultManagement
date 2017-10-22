@@ -9,11 +9,6 @@
     <h2>Save Course</h2>
     <hr />
 
-    @if (ViewBag.Mgs != null)
-    {
-        <p style="font-size:30px;color:olivedrab">@ViewBag.Mgs</p>
-
-    }
 
     <form id="saveCourseForm" method="POST">
         <div class="form-group">
@@ -34,7 +29,7 @@
         </div>
         <div class="form-group">
             <label for="DepartmentId">Department</label>
-            <select id="DepartmentId" name="DepartmentId">
+            <select id="DepartmentId" name="DepartmentId" class="form-control">
                 <option value="">Select Department....</option>
 
                 @foreach (var dept in ViewBag.Departments)
@@ -45,7 +40,7 @@
         </div>
         <div class="form-group">
             <label for="SemesterId">Semester</label>
-            <select id="SemesterId" name="SemesterId">
+            <select id="SemesterId" name="SemesterId" class="form-control">
                 <option value="">Select Semester....</option>
 
                 @foreach (var dept in ViewBag.Semesters)
@@ -57,6 +52,11 @@
         </div>
         <button type="submit" class="btn btn-default">Save</button>
     </form>
+    @if (ViewBag.Mgs != null)
+    {
+        <p class="alert alert-info" >@ViewBag.Mgs</p>
+
+    }
 
 </div>
 
