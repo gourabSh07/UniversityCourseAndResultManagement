@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace UniversityCourseAndResultManagement.Models
@@ -15,6 +16,8 @@ namespace UniversityCourseAndResultManagement.Models
         [DisplayName("Credit To be Taken")]
         public float CreditTobeTaken { get; set; }
         [Required]
+        [Range(0.0, Double.MaxValue)]
+
         [DisplayName("Remaining Credit")]
         public float CreditTaken { get; set; }
         [Required]

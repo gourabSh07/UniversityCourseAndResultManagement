@@ -107,6 +107,7 @@
     
 <script src="~/Scripts/jquery-3.2.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
     <script>
     $(document).ready(function () {
@@ -118,6 +119,8 @@
                 var flag = confirm('Remaining credit is ' + val + '. Are you sure, you want to assign more credit?');
                 if (flag == false)
                     return false;
+
+               // $("#Credit").val(0);
             }
             return true;
         });
@@ -128,7 +131,8 @@
                 TeacherId: "required",
 
                 DepartmentId: "required",
-                CourseId: "required"
+                CourseId: "required",
+                
                 },
             messages: {
 

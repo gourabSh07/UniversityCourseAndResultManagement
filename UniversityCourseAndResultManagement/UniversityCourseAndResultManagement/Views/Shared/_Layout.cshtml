@@ -3,42 +3,125 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - UCRMS</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
+    @*@Scripts.Render("~/bundles/modernizr")*@
+    <link href="~/Content/AdminLTE.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/skins/skin-blue.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+<body class="hold-transition skin-blue sidebar-menu">
+    <div class="wrapper">
+        <header class="main-header">
+
+            <!-- Logo --><span class="logo">
+                <strong>University</strong>
+            </span>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <ul class="sidebar-menu">
+
+                    <li data-toggle="collapse" data-target="#dashboard" class="collapsed active">
+                        <a href="#"><h4><i class="glyphicon glyphicon-home" aria-hidden="true"></i>Dashboard</h4><span class="arrow"></span></a>
+                        <ul class="sub-menu  collapse" id="dashboard">
+                            <li class="active">@Html.ActionLink("Dashboard", "Index", "Home")</li>
+                        </ul>
+                    </li>
+                    <li data-toggle="collapse" data-target="#departments" class="collapsed active">
+                        <a href="#"><h4><i class="fa fa-university"></i>Department</h4><span class="arrow"></span></a>
+
+                        <ul class="sub-menu collapse" id="departments">
+                            <li><h5>@Html.ActionLink("Add Department", "Save", "Department")</h5></li>
+                            <li><h5>@Html.ActionLink("Show Department", "Index", "Department")</h5></li>
+                        </ul>
+                    </li>
+                    @*<li class="active">@Html.ActionLink("Dashboard", "Index", "Home")</li>*@
+                    <li data-toggle="collapse" data-target="#course" class="collapsed active">
+                        <a href="#"><h4><i class="fa fa-book"></i>Course</h4><span class="arrow"></span></a>
+                        <ul class="sub-menu collapse" id="course">
+                            <li><h5>@Html.ActionLink("Add Course", "Save", "Course")</h5></li>
+                            <li><h5>@Html.ActionLink("Show Course Statics", "ShowAllCourse", "CourseView")</h5></li>
+                        </ul>
+                    </li>
+
+                    <li data-toggle="collapse" data-target="#courseAssign" class="collapsed active">
+                        <a href="#"><h4><i class="fa fa-bookmark"></i>CourseAssign</h4><span class="arrow"></span></a>
+                        <ul class="sub-menu collapse" id="courseAssign">
+
+                            <li><h5>@Html.ActionLink("Course Assign To Teacher", "AssignCourseToTeacher", "CourseAssignToTeacher")</h5></li>
+                            <li><h5>@Html.ActionLink("Unassign All Course", "UnAssign", "UnAssignCourses")</h5></li>
+                        </ul>
+                    </li>
+                    <li data-toggle="collapse" data-target="#courseEnroll" class="collapsed active">
+                        <a href="#"><h4><i class="glyphicon glyphicon-pencil"></i>CourseEnroll</h4><span class="arrow"></span></a>
+                        <ul class="sub-menu collapse" id="courseEnroll">
+                            <li><h5>@Html.ActionLink("Enroll in Course", "Enroll", "EnrollStudentInCourse")</h5></li>
+                        </ul>
+                    </li>
+                    <li data-toggle="collapse" data-target="#student" class="collapsed active">
+                        <a href="#"><h4><i class="fa fa-graduation-cap"></i>Student</h4><span class="arrow"></span></a>
+                        <ul class="sub-menu collapse" id="student">
+                            <li><h5>@Html.ActionLink("Student", "Save", "Student")</h5></li>
+                            <li><h5>@Html.ActionLink("ViewStudent", "Index", "Student")</h5></li>
+                        </ul>
+                    </li>
+                    <li data-toggle="collapse" data-target="#teacher" class="collapsed active">
+                        <a href="#"><h4><i class="glyphicon glyphicon-user"></i>Teacher</h4><span class="arrow"></span></a>
+                        <ul class="sub-menu collapse" id="teacher">
+                            <li><h5>@Html.ActionLink("Teacher", "Save", "Teacher")</h5></li>
+                            <li><h5>@Html.ActionLink("ShowTeacher", "Index", "Teacher")</h5></li>
+                        </ul>
+                    </li>
+                    <li data-toggle="collapse" data-target="#result" class="collapsed active">
+                        <a href="#"><h4><i class="fa fa-graduation-cap"></i>Result</h4><span class="arrow"></span></a>
+                        <ul class="sub-menu collapse" id="result">
+                            <li><h5>@Html.ActionLink("SaveStudentResult", "Save", "StudentResult")</h5></li>
+                            <li><h5>@Html.ActionLink("View Result", "ViewStudentResult", "StudentResult")</h5></li>
+                        </ul>
+                    </li>
+
+                    <li data-toggle="collapse" data-target="#room" class="collapsed active">
+                        <a href="#"><h4><i class="fa fa-users"></i>Room</h4><span class="arrow"></span></a>
+                        <ul class="sub-menu collapse" id="room">
+                            <li><h5>@Html.ActionLink("AllocateClassrooms", "Save", "ClassRoom")</h5></li>
+                            <li><h5>@Html.ActionLink("ClassSchedule&Roominfo", "Index", "ClassRoom")</h5></li>
+                            <li><h5>@Html.ActionLink("Unallocate All Classroom", "UnAllocateClassRoom", "ClassRoom")</h5></li>
+
+                        </ul>
+                    </li>
                 </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+
+            </section>
+
+        </aside>
+
+        <div class="content-wrapper">
+
+            <section class="content">
+                @RenderBody()
+                <hr />
+            </section>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Developed by DOT NET MANIAC, BITM-DotNet-45</b>
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2017 <a href="#">UCRMS</a>.</strong> All rights reserved.
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script src="~/Scripts/app.min.js"></script>
 </body>
 </html>

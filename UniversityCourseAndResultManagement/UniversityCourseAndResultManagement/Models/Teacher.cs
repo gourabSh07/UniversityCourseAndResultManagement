@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace UniversityCourseAndResultManagement.Models
@@ -24,6 +25,8 @@ namespace UniversityCourseAndResultManagement.Models
         [DisplayName("Credit To be Taken")]
         [RegularExpression("^0*[1-9][0-9]*(\\.[0-9]+)?", ErrorMessage = "Please! enter a positive number! ")]
         public double CreditTobeTaken { get; set; }
+        [Range(0.0, Double.MaxValue)]
+        [Required(ErrorMessage = "This Teacher Has Already Taken full credit ")]
 
         public double CreditTaken { get; set; }
     }

@@ -28,8 +28,8 @@
                     <label for="StudentId">Student Reg. No</label>
                 </td>
                 <td>
-                    <select id="StudentId" name="StudentId">
-                        <option value="">Select.....</option>
+                    <select id="StudentId" name="StudentId" class="form-control">
+                        <option value="">..Select..</option>
                         @foreach (var student in ViewBag.Students)
                         {
                             <option value="@student.Id">@student.RegNo</option>

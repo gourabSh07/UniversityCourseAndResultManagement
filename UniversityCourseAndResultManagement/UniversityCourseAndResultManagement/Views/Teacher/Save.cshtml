@@ -32,7 +32,7 @@
         </div>
         <div class="form-group">
             <label for="DesignationId">Designation</label>
-            <select id="DesignationId" name="DesignationId">
+            <select id="DesignationId" name="DesignationId" class="form-control">
                 <option value="">Select Designation....</option>
 
                 @foreach (var designation in ViewBag.Designations)
@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
             <label for="DepartmentId">Department</label>
-            <select id="DepartmentId" name="DepartmentId">
+            <select id="DepartmentId" name="DepartmentId" class="form-control">
                 <option value="">Select Department....</option>
 
                 @foreach (var dept in ViewBag.Departments)

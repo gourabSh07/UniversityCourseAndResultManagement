@@ -7,7 +7,7 @@ namespace UniversityCourseAndResultManagement.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Please enter a valid course code!")]
-        [StringLength(100, MinimumLength = 5, ErrorMessage = "Code must be contains 5 characters!")]
+        [StringLength(100, MinimumLength = 4, ErrorMessage = "Code must be contains 5 characters!")]
         public string Code { get; set; }
         [Required(ErrorMessage = "Please enter a valid course name!")]
         public string Name { get; set; }
